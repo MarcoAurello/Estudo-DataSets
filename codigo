@@ -1,0 +1,547 @@
+
+R version 3.4.2 (2017-09-28) -- "Short Summer"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R é um software livre e vem sem GARANTIA ALGUMA.
+Você pode redistribuí-lo sob certas circunstâncias.
+Digite 'license()' ou 'licence()' para detalhes de distribuição.
+
+R é um projeto colaborativo com muitos contribuidores.
+Digite 'contributors()' para obter mais informações e
+'citation()' para saber como citar o R ou pacotes do R em publicações.
+
+Digite 'demo()' para demonstrações, 'help()' para o sistema on-line de ajuda,
+ou 'help.start()' para abrir o sistema de ajuda em HTML no seu navegador.
+Digite 'q()' para sair do R.
+
+[Área de trabalho anterior carregada]
+
+> install.package("neuralnet")
+Error in install.package("neuralnet") : 
+  não foi possível encontrar a função "install.package"
+> install.packages("neuralnet")
+--- Please select a CRAN mirror for use in this session ---
+tentando a URL 'https://cran.fiocruz.br/bin/windows/contrib/3.4/neuralnet_1.33.zip'
+Content type 'application/zip' length 59672 bytes (58 KB)
+downloaded 58 KB
+
+package ‘neuralnet’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+        C:\Users\marconunes\AppData\Local\Temp\Rtmpeq8mgQ\downloaded_packages
+> library(neuralnet)
+Warning message:
+package ‘neuralnet’ was built under R version 3.4.4 
+> dados = read.csv(file.choose(), sep = ";" , head=T)
+> dados
+   organizacao_mesa pontualidade trabalho_equipe comunicacao desempenho
+1                 3            3               2           3    regular
+2                 5            2               4           5        bom
+3                 1            3               3           3       ruim
+4                 3            4               3           5      otimo
+5                 2            2               4           4    regular
+6                 5            4               4           4      otimo
+7                 3            4               3           4        bom
+8                 2            3               2           2       ruim
+9                 3            5               4           4        bom
+10                2            2               4           3    regular
+11                5            5               2           3    regular
+12                4            3               5           3        bom
+13                4            3               3           4      otimo
+14                3            5               2           4    regular
+15                3            3               4           4        bom
+16                3            3               5           4        bom
+17                1            2               3           4    regular
+18                2            3               5           3        bom
+19                5            4               4           3        bom
+20                3            4               3           5      otimo
+> q()
+> dados= cbind(dados, dados$desempenho="otimo")
+Erro: '=' inesperado in "dados= cbind(dados, dados$desempenho="
+> dados = cbind(dados, dados$desempenho=="otimo")
+> dados = cbind(dados, dados$desempenho=="bom")
+> dados = cbind(dados, dados$desempenho=="regular")
+> dados = cbind(dados, dados$desempenho=="ruim")
+> dados
+   organizacao_mesa pontualidade trabalho_equipe comunicacao desempenho
+1                 3            3               2           3    regular
+2                 5            2               4           5        bom
+3                 1            3               3           3       ruim
+4                 3            4               3           5      otimo
+5                 2            2               4           4    regular
+6                 5            4               4           4      otimo
+7                 3            4               3           4        bom
+8                 2            3               2           2       ruim
+9                 3            5               4           4        bom
+10                2            2               4           3    regular
+11                5            5               2           3    regular
+12                4            3               5           3        bom
+13                4            3               3           4      otimo
+14                3            5               2           4    regular
+15                3            3               4           4        bom
+16                3            3               5           4        bom
+17                1            2               3           4    regular
+18                2            3               5           3        bom
+19                5            4               4           3        bom
+20                3            4               3           5      otimo
+   dados$desempenho == "otimo" dados$desempenho == "bom"
+1                        FALSE                     FALSE
+2                        FALSE                      TRUE
+3                        FALSE                     FALSE
+4                         TRUE                     FALSE
+5                        FALSE                     FALSE
+6                         TRUE                     FALSE
+7                        FALSE                      TRUE
+8                        FALSE                     FALSE
+9                        FALSE                      TRUE
+10                       FALSE                     FALSE
+11                       FALSE                     FALSE
+12                       FALSE                      TRUE
+13                        TRUE                     FALSE
+14                       FALSE                     FALSE
+15                       FALSE                      TRUE
+16                       FALSE                      TRUE
+17                       FALSE                     FALSE
+18                       FALSE                      TRUE
+19                       FALSE                      TRUE
+20                        TRUE                     FALSE
+   dados$desempenho == "regular" dados$desempenho == "ruim"
+1                           TRUE                      FALSE
+2                          FALSE                      FALSE
+3                          FALSE                       TRUE
+4                          FALSE                      FALSE
+5                           TRUE                      FALSE
+6                          FALSE                      FALSE
+7                          FALSE                      FALSE
+8                          FALSE                       TRUE
+9                          FALSE                      FALSE
+10                          TRUE                      FALSE
+11                          TRUE                      FALSE
+12                         FALSE                      FALSE
+13                         FALSE                      FALSE
+14                          TRUE                      FALSE
+15                         FALSE                      FALSE
+16                         FALSE                      FALSE
+17                          TRUE                      FALSE
+18                         FALSE                      FALSE
+19                         FALSE                      FALSE
+20                         FALSE                      FALSE
+> names(dados)[6]="otimo"
+> names(dados)[7]="bom"
+> names(dados)[8]="regular"
+> names(dados)[9]="ruim"
+> dados
+   organizacao_mesa pontualidade trabalho_equipe comunicacao desempenho otimo
+1                 3            3               2           3    regular FALSE
+2                 5            2               4           5        bom FALSE
+3                 1            3               3           3       ruim FALSE
+4                 3            4               3           5      otimo  TRUE
+5                 2            2               4           4    regular FALSE
+6                 5            4               4           4      otimo  TRUE
+7                 3            4               3           4        bom FALSE
+8                 2            3               2           2       ruim FALSE
+9                 3            5               4           4        bom FALSE
+10                2            2               4           3    regular FALSE
+11                5            5               2           3    regular FALSE
+12                4            3               5           3        bom FALSE
+13                4            3               3           4      otimo  TRUE
+14                3            5               2           4    regular FALSE
+15                3            3               4           4        bom FALSE
+16                3            3               5           4        bom FALSE
+17                1            2               3           4    regular FALSE
+18                2            3               5           3        bom FALSE
+19                5            4               4           3        bom FALSE
+20                3            4               3           5      otimo  TRUE
+     bom regular  ruim
+1  FALSE    TRUE FALSE
+2   TRUE   FALSE FALSE
+3  FALSE   FALSE  TRUE
+4  FALSE   FALSE FALSE
+5  FALSE    TRUE FALSE
+6  FALSE   FALSE FALSE
+7   TRUE   FALSE FALSE
+8  FALSE   FALSE  TRUE
+9   TRUE   FALSE FALSE
+10 FALSE    TRUE FALSE
+11 FALSE    TRUE FALSE
+12  TRUE   FALSE FALSE
+13 FALSE   FALSE FALSE
+14 FALSE    TRUE FALSE
+15  TRUE   FALSE FALSE
+16  TRUE   FALSE FALSE
+17 FALSE    TRUE FALSE
+18  TRUE   FALSE FALSE
+19  TRUE   FALSE FALSE
+20 FALSE   FALSE FALSE
+> fix(dados)
+> amostra = sample(2,20, replace=T, prob = c(0.7,0.3))
+> amostra
+ [1] 1 1 2 1 2 1 1 1 2 1 2 1 1 1 1 1 2 1 1 1
+> model = neuralnet( otimo + bom + regular + ruim  ~ organizacao_mesa  + pontualidade + trabalho_equipe + comunicacao, dados)
+> model
+$call
+neuralnet(formula = otimo + bom + regular + ruim ~ organizacao_mesa + 
+    pontualidade + trabalho_equipe + comunicacao, data = dados)
+
+$response
+   otimo   bom regular  ruim
+1  FALSE FALSE    TRUE FALSE
+2  FALSE  TRUE   FALSE FALSE
+3  FALSE FALSE   FALSE  TRUE
+4   TRUE FALSE   FALSE FALSE
+5  FALSE FALSE    TRUE FALSE
+6   TRUE FALSE   FALSE FALSE
+7  FALSE  TRUE   FALSE FALSE
+8  FALSE FALSE   FALSE  TRUE
+9  FALSE  TRUE   FALSE FALSE
+10 FALSE FALSE    TRUE FALSE
+11 FALSE FALSE    TRUE FALSE
+12 FALSE  TRUE   FALSE FALSE
+13  TRUE FALSE   FALSE FALSE
+14 FALSE FALSE    TRUE FALSE
+15 FALSE  TRUE   FALSE FALSE
+16 FALSE  TRUE   FALSE FALSE
+17 FALSE FALSE    TRUE FALSE
+18 FALSE  TRUE   FALSE FALSE
+19 FALSE  TRUE   FALSE FALSE
+20  TRUE FALSE   FALSE FALSE
+
+$covariate
+      [,1] [,2] [,3] [,4]
+ [1,]    3    3    2    3
+ [2,]    5    2    4    5
+ [3,]    1    3    3    3
+ [4,]    3    4    3    5
+ [5,]    2    2    4    4
+ [6,]    5    4    4    4
+ [7,]    3    4    3    4
+ [8,]    2    3    2    2
+ [9,]    3    5    4    4
+[10,]    2    2    4    3
+[11,]    5    5    2    3
+[12,]    4    3    5    3
+[13,]    4    3    3    4
+[14,]    3    5    2    4
+[15,]    3    3    4    4
+[16,]    3    3    5    4
+[17,]    1    2    3    4
+[18,]    2    3    5    3
+[19,]    5    4    4    3
+[20,]    3    4    3    5
+
+$model.list
+$model.list$response
+[1] "otimo"   "bom"     "regular" "ruim"   
+
+$model.list$variables
+[1] "organizacao_mesa" "pontualidade"     "trabalho_equipe"  "comunicacao"     
+
+
+$err.fct
+function (x, y) 
+{
+    1/2 * (y - x)^2
+}
+<environment: 0x12934eac>
+attr(,"type")
+[1] "sse"
+
+$act.fct
+function (x) 
+{
+    1/(1 + exp(-x))
+}
+<environment: 0x12934eac>
+attr(,"type")
+[1] "logistic"
+
+$linear.output
+[1] TRUE
+
+$data
+   organizacao_mesa pontualidade trabalho_equipe comunicacao desempenho otimo
+1                 3            3               2           3    regular FALSE
+2                 5            2               4           5        bom FALSE
+3                 1            3               3           3       ruim FALSE
+4                 3            4               3           5      otimo  TRUE
+5                 2            2               4           4    regular FALSE
+6                 5            4               4           4      otimo  TRUE
+7                 3            4               3           4        bom FALSE
+8                 2            3               2           2       ruim FALSE
+9                 3            5               4           4        bom FALSE
+10                2            2               4           3    regular FALSE
+11                5            5               2           3    regular FALSE
+12                4            3               5           3        bom FALSE
+13                4            3               3           4      otimo  TRUE
+14                3            5               2           4    regular FALSE
+15                3            3               4           4        bom FALSE
+16                3            3               5           4        bom FALSE
+17                1            2               3           4    regular FALSE
+18                2            3               5           3        bom FALSE
+19                5            4               4           3        bom FALSE
+20                3            4               3           5      otimo  TRUE
+     bom regular  ruim
+1  FALSE    TRUE FALSE
+2   TRUE   FALSE FALSE
+3  FALSE   FALSE  TRUE
+4  FALSE   FALSE FALSE
+5  FALSE    TRUE FALSE
+6  FALSE   FALSE FALSE
+7   TRUE   FALSE FALSE
+8  FALSE   FALSE  TRUE
+9   TRUE   FALSE FALSE
+10 FALSE    TRUE FALSE
+11 FALSE    TRUE FALSE
+12  TRUE   FALSE FALSE
+13 FALSE   FALSE FALSE
+14 FALSE    TRUE FALSE
+15  TRUE   FALSE FALSE
+16  TRUE   FALSE FALSE
+17 FALSE    TRUE FALSE
+18  TRUE   FALSE FALSE
+19  TRUE   FALSE FALSE
+20 FALSE   FALSE FALSE
+
+$net.result
+$net.result[[1]]
+            [,1]           [,2]           [,3]            [,4]
+1  0.09336638355 -0.08205495452  0.70811037965  0.278673003377
+2  0.28453061220  0.78213337216 -0.02464879903 -0.041670864863
+3  0.09417146601 -0.07841545108  0.70502438615  0.277323884701
+4  0.23850827516  0.57408207137  0.15176124445  0.035451165636
+5  0.15061379470  0.17674108070  0.48867305984  0.182740530736
+6  0.28871983147  0.80107140472 -0.04070666137 -0.048690958076
+7  0.18644050947  0.33870144802  0.35134426001  0.122703836225
+8  0.09313882050 -0.08308368950  0.70898266057  0.279054342643
+9  0.28828091217  0.79908720017 -0.03902422242 -0.047955438118
+10 0.11589149279  0.01977338755  0.62176849096  0.240926503004
+11 0.14587898342  0.15533661257  0.50682225257  0.190674900950
+12 0.28856960328  0.80039227430 -0.04013081577 -0.048439212873
+13 0.16112278435  0.22424864132  0.44839063525  0.165130068674
+14 0.11377198463  0.01019181349  0.62989286168  0.244478273379
+15 0.26472973419  0.69262035106  0.05125073097 -0.008489500855
+16 0.28857286771  0.80040703166 -0.04014332877 -0.048444683243
+17 0.09373641342 -0.08038217557  0.70669200347  0.278052925018
+18 0.28276157784  0.77413617072 -0.01786784333 -0.038706401719
+19 0.28759265939  0.79597584393 -0.03638605344 -0.046802097044
+20 0.23850827516  0.57408207137  0.15176124445  0.035451165636
+
+
+$weights
+$weights[[1]]
+$weights[[1]][[1]]
+              [,1]
+[1,] -26.025466162
+[2,]   1.144653997
+[3,]   1.681270251
+[4,]   3.723893273
+[5,]   1.149501895
+
+$weights[[1]][[2]]
+             [,1]           [,2]          [,3]          [,4]
+[1,] 0.0931132647 -0.08319921856  0.7090806195  0.2790971678
+[2,] 0.1961336693  0.88665347424 -0.7518077385 -0.3286714191
+
+
+
+$startweights
+$startweights[[1]]
+$startweights[[1]][[1]]
+              [,1]
+[1,]  0.8015596194
+[2,] -0.7132167355
+[3,] -1.3845357344
+[4,] -0.6819236960
+[5,] -0.3271323721
+
+$startweights[[1]][[2]]
+              [,1]          [,2]         [,3]          [,4]
+[1,] -0.1481174523 -1.6740596354 0.9747229680 -0.6699985166
+[2,] -0.3093617764  0.6826869091 0.3052320653 -0.9349652753
+
+
+
+$generalized.weights
+$generalized.weights[[1]]
+             [,1]            [,2]           [,3]            [,4]
+1  0.003418342065 0.0050208681728 0.011120863649 0.0034328196069
+2  0.025881339232 0.0380145666966 0.084199544453 0.0259909532403
+3  0.014123024106 0.0207439281640 0.045946316198 0.0141828386796
+4  0.237051071299 0.3481811230699 0.771196267568 0.2380550424549
+5  0.363656225847 0.5341390462087 1.183079757933 0.3651964018064
+6  0.002930105806 0.0043037457067 0.009532488713 0.0029425155445
+7  0.369165560553 0.5422311688683 1.201003230454 0.3707290699369
+8  0.000346286513 0.0005086263747 0.001126571017 0.0003477531239
+9  0.005362809221 0.0078769057111 0.017446782384 0.0053855220723
+10 0.224917042554 0.3303586355662 0.731720733339 0.2258696230332
+11 0.354334854596 0.5204477960791 1.152754618806 0.3558355521941
+12 0.003763480009 0.0055278075272 0.012243698036 0.0037794192975
+13 0.376242127947 0.5526252462677 1.224025367968 0.3778356083810
+14 0.209826241133 0.3081932340013 0.682625955295 0.2107149082569
+15 0.126154334987 0.1852957583994 0.410416842860 0.1266886304564
+16 0.003745379114 0.0055012208939 0.012184810546 0.0037612417408
+17 0.008369915101 0.0122937492909 0.027229774791 0.0084053638049
+18 0.035393291183 0.0519857421677 0.115144698176 0.0355431907097
+19 0.009164253487 0.0134604752209 0.029813989221 0.0092030664153
+20 0.237051071299 0.3481811230699 0.771196267568 0.2380550424549
+              [,5]           [,6]            [,7]            [,8]
+1  -0.014732807496 -0.02163957932 -0.047930119402 -0.014795204657
+2   0.139777426043  0.20530538383  0.454736731050  0.140369418744
+3  -0.064403141018 -0.09459547196 -0.209522200008 -0.064675904586
+4   0.795998819000  1.16916477636  2.589616300132  0.799370075032
+5   1.445402485818  2.12301027809  4.702315817789  1.451524130389
+6   0.017070016479  0.02507247690  0.055533741838  0.017142312310
+7   1.130154756999  1.65997373637  3.676723018349  1.134941247821
+8  -0.001469369766 -0.00215821347 -0.004780288369 -0.001475592918
+9   0.030982526893  0.04550720210  0.100795195603  0.031113745719
+10  5.374940859986  7.89472468867 17.486250143880  5.397705091996
+11  1.521143821155  2.23425931424  4.948724470542  1.527586249410
+12  0.021862214214  0.03211126723  0.071124158646  0.021954806212
+13  1.321515254773  1.94104444683  4.299274525223  1.327112205633
+14  9.480688273569 13.92525531511 30.843443864091  9.520841382803
+15  0.521414751973  0.76585510849  1.696314251490  0.523623075134
+16  0.021758419137  0.03195881280  0.070786482992  0.021850571537
+17 -0.037012508122 -0.05436405149 -0.120412483102 -0.037169265442
+18  0.185584889250  0.27258748425  0.603761767967  0.186370888126
+19  0.052266517560  0.07676917334  0.170038224422  0.052487879462
+20  0.795998819000  1.16916477636  2.589616300132  0.799370075032
+               [,9]            [,10]           [,11]            [,12]
+1  -0.0053662747033 -0.0078819958190 -0.017458056609 -0.0053890022319
+2   0.7996328722991  1.1745024816570  2.601438935335  0.8030195194646
+3  -0.0222053393435 -0.0326152501584 -0.072240444761 -0.0222993845637
+4  -1.2819946425773 -1.8829964866863 -4.170702448116 -1.2874242136628
+5  -0.7136718180509 -1.0482427004025 -2.321782556526 -0.7166943984417
+6   0.0544454307802  0.0799695657613  0.177126864576  0.0546760209300
+7  -0.9417991317736 -1.3833165891619 -3.063947238208 -0.9457878889527
+8  -0.0005433845435 -0.0007981243855 -0.001767788391 -0.0005456859143
+9   0.1040187322407  0.1527829375052  0.338403271588  0.1044592778422
+10 -0.3756191400572 -0.5517102003156 -1.221998606676 -0.3772099819798
+11 -0.6770511838502 -0.9944542341720 -2.202644953576 -0.6799186666065
+12  0.0709514540199  0.1042136481757  0.230825771926  0.0712519513468
+13 -0.7881143828014 -1.1575840995236 -2.563965929793 -0.7914522462548
+14 -0.3478572823053 -0.5109335239749 -1.131681187051 -0.3493305457489
+15 -1.9357756646023 -2.8432714571497 -6.297642778857 -1.9439741634317
+16  0.0705878204102  0.1036795423482  0.229642765745  0.0708867776570
+17 -0.0131487501641 -0.0193129125044 -0.042776718933 -0.0132044384418
+18  1.5128504550463  2.2220780002691  4.921743731947  1.5192577588013
+19  0.1908540592586  0.2803268524830  0.620903914686  0.1916623744007
+20 -1.2819946425773 -1.8829964866863 -4.170702448116 -1.2874242136628
+              [,13]            [,14]            [,15]           [,16]
+1  -0.0024122403427 -0.0035431038005 -0.0078477213308 -0.002422456790
+2   0.2034012209155  0.2987561504950  0.6617234907602  0.204262676456
+3  -0.0100733016429 -0.0147956871058 -0.0327713879819 -0.010115964619
+4  -2.1099181549141 -3.0990523212418 -6.8641790860631 -2.118854191170
+5  -0.5220065167383 -0.7667242938469 -1.6982394348512 -0.524217346172
+6   0.0197476109189  0.0290053333654  0.0642447374336  0.019831247038
+7  -0.8716782131188 -1.2803228331157 -2.8358234400380 -0.875369990498
+8  -0.0002436270987 -0.0003578400063 -0.0007925900026 -0.000244658921
+9   0.0366898517120  0.0538901330600  0.1193627877014  0.036845242500
+10 -0.2111644824240 -0.3101588456859 -0.6869796444939 -0.212058817338
+11 -0.4794234347521 -0.7041781714925 -1.5597042503897 -0.481453914079
+12  0.0254942398043  0.0374459942249  0.0829401971220  0.025602214349
+13 -0.6181410487054 -0.9079269010429 -2.0109931036322 -0.620759032161
+14 -0.1919389737880 -0.2819203772758 -0.6244334580502 -0.192751883817
+15  4.8062698942480  7.0594595518281 15.6361976473990  4.826625661097
+16  0.0253687955417  0.0372617414223  0.0825320903516  0.025476238798
+17 -0.0059355487069 -0.0087181466993 -0.0193100709634 -0.005960687255
+18  0.2991844866908  0.4394428171534  0.9733343881773  0.300451608552
+19  0.0642219023608  0.0943292682336  0.2089325777994  0.064493898337
+20 -2.1099181549141 -3.0990523212418 -6.8641790860631 -2.118854191170
+
+
+$result.matrix
+                                             1
+error                           4.539920480408
+reached.threshold               0.009297192903
+steps                        5003.000000000000
+Intercept.to.1layhid1         -26.025466162213
+organizacao_mesa.to.1layhid1    1.144653996589
+pontualidade.to.1layhid1        1.681270250642
+trabalho_equipe.to.1layhid1     3.723893273236
+comunicacao.to.1layhid1         1.149501895353
+Intercept.to.otimo              0.093113264699
+1layhid.1.to.otimo              0.196133669313
+Intercept.to.bom               -0.083199218559
+1layhid.1.to.bom                0.886653474241
+Intercept.to.regular            0.709080619525
+1layhid.1.to.regular           -0.751807738539
+Intercept.to.ruim               0.279097167830
+1layhid.1.to.ruim              -0.328671419130
+
+attr(,"class")
+[1] "nn"
+> plot(model)
+> dadosTreino = dados[amostra == 1,]
+> dadosTeste = dados[amostra == 2,]
+> model = neuralnet( otimo + bom + regular + ruim  ~ organizacao_mesa  + pontualidade + trabalho_equipe + comunicacao, dadosTreino , hidden=(5,4))
+Erro: ',' inesperado in "model = neuralnet( otimo + bom + regular + ruim  ~ organizacao_mesa  + pontualidade + trabalho_equipe + comunicacao, dadosTreino , hidden=(5,"
+> model = neuralnet( otimo + bom + regular + ruim  ~ organizacao_mesa  + pontualidade + trabalho_equipe + comunicacao, dadosTreino , hidden=c(5,4))
+> plot(model)
+> teste = compute(model, dadosTeste[,1:4])
+> resultado = as.data.frame(teste$net.result)
+> names(resultado)[1] ='otimo'
+> names(resultado)[2] ='bom'
+> names(resultado)[3] ='regular'
+> names(resultado)[4] ='ruim'
+> resultado$desempenho = colnames(resultado[,1:4])[max.col(resultado[,1:4],ties.method='first')]
+> head(resultado)
+           otimo           bom        regular            ruim desempenho
+3  0.67846961033 -0.5134821125  0.17166227814  0.714900930017       ruim
+5  0.07166053213 -0.4108445254  1.89814222462 -0.540770632524    regular
+9  0.15444324027  0.8526448204 -0.01323213139  0.002731724625        bom
+11 1.45879688012 -2.6503656801  2.31908279652 -0.155045862696    regular
+17 1.37155413261 -2.2495615696  1.97785662034 -0.063469020779    regular
+> tbl = table(resultado$desempenho, teste$desempenho)
+Error in table(resultado$desempenho, teste$desempenho) : 
+  todos os argumentos devem ter o mesmo comprimento
+> tbl = table(resultado$desempenho, dadosTeste$desempenho)
+> tbl
+         
+          bom otimo regular ruim
+  bom       1     0       0    0
+  regular   0     0       3    0
+  ruim      0     0       0    1
+> sum(diag(confusao) *100 / sum(tbl))
+Error in diag(confusao) : objeto 'confusao' não encontrado
+> sum(diag(tab) *100 / sum(tbl))
+Error in diag(tab) : objeto 'tab' não encontrado
+> sum(diag(tbl) *100 / sum(tbl))
+[1] 20
+> resultado
+           otimo           bom        regular            ruim desempenho
+3  0.67846961033 -0.5134821125  0.17166227814  0.714900930017       ruim
+5  0.07166053213 -0.4108445254  1.89814222462 -0.540770632524    regular
+9  0.15444324027  0.8526448204 -0.01323213139  0.002731724625        bom
+11 1.45879688012 -2.6503656801  2.31908279652 -0.155045862696    regular
+17 1.37155413261 -2.2495615696  1.97785662034 -0.063469020779    regular
+> novosFuncionarios = read.csv(file.choose(), sep = ";" , head=T)
+>  novosFuncionarios 
+  organizacao_mesa pontualidade trabalho_equipe comunicacao
+1                4            3               3           3
+2                3            3               3           2
+3                4            2               5           2
+4                2            4               3           3
+5                2            5               2           2
+> aplicandoModelo = compute(model,  novosFuncionarios [,1:4])
+> resultado = as.data.frame(aplicandoModelo$net.result)
+> resultado
+              V1          V2             V3              V4
+1 -0.06721177569 1.035969445  0.03500178848 -0.009409280608
+2 -0.34139047854 1.236329670 -0.06709690561  0.144487440072
+3 -0.12380119953 1.127185069 -0.02191308042  0.005593971135
+4 -0.41935754974 1.377072504 -0.05264700805  0.062880163823
+5 -0.69959604805 0.541457084  0.06855085670  1.044924588024
+> names(resultado)[1] ='otimo'
+> names(resultado)[2] ='bom'
+> names(resultado)[3] ='regular'
+> names(resultado)[4] ='ruim'
+> resultado$desempenho = colnames(resultado[,1:4])[max.col(resultado[,1:4],ties.method='first')]
+> resultado
+           otimo         bom        regular            ruim desempenho
+1 -0.06721177569 1.035969445  0.03500178848 -0.009409280608        bom
+2 -0.34139047854 1.236329670 -0.06709690561  0.144487440072        bom
+3 -0.12380119953 1.127185069 -0.02191308042  0.005593971135        bom
+4 -0.41935754974 1.377072504 -0.05264700805  0.062880163823        bom
+5 -0.69959604805 0.541457084  0.06855085670  1.044924588024       ruim
+> 
